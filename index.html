@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Japanese to English Translator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <h1>日本語 → English</h1>
+    <p class="sub">Type or paste Japanese text and get an English translation.</p>
+
+    <div class="panels">
+      <section>
+        <div class="bar">
+          <label for="source">Japanese</label>
+          <button type="button" id="speak-src" title="Listen">🔊</button>
+        </div>
+        <textarea id="source" lang="ja" placeholder="こんにちは、元気ですか？" maxlength="5000"></textarea>
+        <div class="bar"><span id="count">0 / 5000</span><button type="button" id="clear">Clear</button></div>
+      </section>
+
+      <section>
+        <div class="bar">
+          <label for="target">English</label>
+          <button type="button" id="speak-tgt" title="Listen">🔊</button>
+        </div>
+        <textarea id="target" lang="en" readonly placeholder="Translation appears here"></textarea>
+        <div class="bar"><span id="status" role="status"></span><button type="button" id="copy">Copy</button></div>
+      </section>
+    </div>
+
+    <button type="button" id="translate" class="primary">Translate</button>
+    <p class="note">Translations by <a href="https://mymemory.translated.net" target="_blank" rel="noopener">MyMemory</a>. Press Ctrl/⌘+Enter to translate.</p>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
