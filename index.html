@@ -3,37 +3,76 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Japanese to English Translator</title>
+  <title>Japanese ⇄ English Translator</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <main>
-    <h1>日本語 → English</h1>
-    <p class="sub">Type or paste Japanese text and get an English translation.</p>
+    <h1>日本語 ⇄ English</h1>
+    <p class="sub">Translate both ways. Type Japanese in kana, kanji or romaji (like <em>konnichiwa</em>). Japanese text always comes with its hiragana and romaji.</p>
+
+    <div class="switch">
+      <span id="from-name">Japanese</span>
+      <button type="button" id="swap" title="Swap languages" aria-label="Swap languages">⇄</button>
+      <span id="to-name">English</span>
+    </div>
 
     <div class="panels">
       <section>
         <div class="bar">
-          <label for="source">Japanese</label>
-          <button type="button" id="speak-src" title="Listen">🔊</button>
+          <label for="source" id="source-label">Japanese</label>
+          <button type="button" id="speak-src">Listen</button>
         </div>
-        <textarea id="source" lang="ja" placeholder="こんにちは、元気ですか？" maxlength="5000"></textarea>
+        <textarea id="source" maxlength="5000"></textarea>
+        <div id="reading-src" class="reading" hidden></div>
         <div class="bar"><span id="count">0 / 5000</span><button type="button" id="clear">Clear</button></div>
       </section>
 
       <section>
         <div class="bar">
-          <label for="target">English</label>
-          <button type="button" id="speak-tgt" title="Listen">🔊</button>
+          <label for="target" id="target-label">English</label>
+          <button type="button" id="speak-tgt">Listen</button>
         </div>
-        <textarea id="target" lang="en" readonly placeholder="Translation appears here"></textarea>
+        <textarea id="target" readonly></textarea>
+        <div id="reading-tgt" class="reading" hidden></div>
         <div class="bar"><span id="status" role="status"></span><button type="button" id="copy">Copy</button></div>
       </section>
     </div>
 
-    <button type="button" id="translate" class="primary">Translate</button>
-    <p class="note">Translations by <a href="https://mymemory.translated.net" target="_blank" rel="noopener">MyMemory</a>. Press Ctrl/⌘+Enter to translate.</p>
+    <div class="actions">
+      <button type="button" id="translate" class="primary">Translate</button>
+      <div class="opts" role="group" aria-label="Show">
+        <label class="check"><input type="checkbox" id="show-kana" checked> Hiragana</label>
+        <label class="check"><input type="checkbox" id="show-romaji" checked> Romaji</label>
+        <label class="check"><input type="checkbox" id="wbw" checked> Word by word</label>
+      </div>
+    </div>
+
+    <section id="aligned" class="aligned" aria-labelledby="aligned-title" hidden>
+      <div class="aligned-head">
+        <h2 id="aligned-title">Word by word</h2>
+        <div class="tabs" role="group" aria-label="Layout">
+          <button type="button" id="view-flow" aria-pressed="true">Sentence</button>
+          <button type="button" id="view-list" aria-pressed="false">List</button>
+        </div>
+      </div>
+      <p id="aligned-note" class="aligned-note" role="status"></p>
+      <div id="aligned-flow" class="cols">
+        <div><h3 id="flow-src-name" class="col-title"></h3><div id="flow-src" class="flow"></div></div>
+        <div><h3 id="flow-tgt-name" class="col-title"></h3><div id="flow-tgt" class="flow"></div></div>
+      </div>
+      <div id="aligned-list" class="pairs" hidden></div>
+    </section>
+
+    <p class="note"><span id="credit"></span>Press Ctrl/⌘+Enter to translate.
+      Romaji tips: write long vowels out (Tokyo = <em>toukyou</em>). Type <em>ha</em> for は inside a word.</p>
   </main>
+  <script src="config.js"></script>
+  <script src="romaji.js"></script>
+  <script src="align.js"></script>
+  <script src="reading.js"></script>
+  <script src="kuromoji-analyzer.js"></script>
+  <script src="engine.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

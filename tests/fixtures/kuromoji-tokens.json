@@ -1,0 +1,1009 @@
+[
+ {
+  "text": "私は自分の物語を語りたい。",
+  "tokens": [
+   {
+    "surface_form": "私",
+    "reading": "ワタシ",
+    "pronunciation": "ワタシ",
+    "pos": "名詞",
+    "pos_detail_1": "代名詞",
+    "basic_form": "私"
+   },
+   {
+    "surface_form": "は",
+    "reading": "ハ",
+    "pronunciation": "ワ",
+    "pos": "助詞",
+    "pos_detail_1": "係助詞",
+    "basic_form": "は"
+   },
+   {
+    "surface_form": "自分",
+    "reading": "ジブン",
+    "pronunciation": "ジブン",
+    "pos": "名詞",
+    "pos_detail_1": "一般",
+    "basic_form": "自分"
+   },
+   {
+    "surface_form": "の",
+    "reading": "ノ",
+    "pronunciation": "ノ",
+    "pos": "助詞",
+    "pos_detail_1": "連体化",
+    "basic_form": "の"
+   },
+   {
+    "surface_form": "物語",
+    "reading": "モノガタリ",
+    "pronunciation": "モノガタリ",
+    "pos": "名詞",
+    "pos_detail_1": "一般",
+    "basic_form": "物語"
+   },
+   {
+    "surface_form": "を",
+    "reading": "ヲ",
+    "pronunciation": "ヲ",
+    "pos": "助詞",
+    "pos_detail_1": "格助詞",
+    "basic_form": "を"
+   },
+   {
+    "surface_form": "語り",
+    "reading": "カタリ",
+    "pronunciation": "カタリ",
+    "pos": "動詞",
+    "pos_detail_1": "自立",
+    "basic_form": "語る"
+   },
+   {
+    "surface_form": "たい",
+    "reading": "タイ",
+    "pronunciation": "タイ",
+    "pos": "助動詞",
+    "pos_detail_1": "*",
+    "basic_form": "たい"
+   },
+   {
+    "surface_form": "。",
+    "reading": "。",
+    "pronunciation": "。",
+    "pos": "記号",
+    "pos_detail_1": "句点",
+    "basic_form": "。"
+   }
+  ]
+ },
+ {
+  "text": "ゲローラ・ブン・カルノ・スタジアムの内部の空気は、とても濃厚で、水中で呼吸しているように感じられた。",
+  "tokens": [
+   {
+    "surface_form": "ゲローラ・ブン・カルノ・スタジアム",
+    "pos": "名詞",
+    "pos_detail_1": "一般",
+    "basic_form": "*"
+   },
+   {
+    "surface_form": "の",
+    "reading": "ノ",
+    "pronunciation": "ノ",
+    "pos": "助詞",
+    "pos_detail_1": "連体化",
+    "basic_form": "の"
+   },
+   {
+    "surface_form": "内部",
+    "reading": "ナイブ",
+    "pronunciation": "ナイブ",
+    "pos": "名詞",
+    "pos_detail_1": "一般",
+    "basic_form": "内部"
+   },
+   {
+    "surface_form": "の",
+    "reading": "ノ",
+    "pronunciation": "ノ",
+    "pos": "助詞",
+    "pos_detail_1": "連体化",
+    "basic_form": "の"
+   },
+   {
+    "surface_form": "空気",
+    "reading": "クウキ",
+    "pronunciation": "クーキ",
+    "pos": "名詞",
+    "pos_detail_1": "一般",
+    "basic_form": "空気"
+   },
+   {
+    "surface_form": "は",
+    "reading": "ハ",
+    "pronunciation": "ワ",
+    "pos": "助詞",
+    "pos_detail_1": "係助詞",
+    "basic_form": "は"
+   },
+   {
+    "surface_form": "、",
+    "reading": "、",
+    "pronunciation": "、",
+    "pos": "記号",
+    "pos_detail_1": "読点",
+    "basic_form": "、"
+   },
+   {
+    "surface_form": "とても",
+    "reading": "トテモ",
+    "pronunciation": "トテモ",
+    "pos": "副詞",
+    "pos_detail_1": "助詞類接続",
+    "basic_form": "とても"
+   },
+   {
+    "surface_form": "濃厚",
+    "reading": "ノウコウ",
+    "pronunciation": "ノーコー",
+    "pos": "名詞",
+    "pos_detail_1": "形容動詞語幹",
+    "basic_form": "濃厚"
+   },
+   {
+    "surface_form": "で",
+    "reading": "デ",
+    "pronunciation": "デ",
+    "pos": "助動詞",
+    "pos_detail_1": "*",
+    "basic_form": "だ"
+   },
+   {
+    "surface_form": "、",
+    "reading": "、",
+    "pronunciation": "、",
+    "pos": "記号",
+    "pos_detail_1": "読点",
+    "basic_form": "、"
+   },
+   {
+    "surface_form": "水中",
+    "reading": "スイチュウ",
+    "pronunciation": "スイチュー",
+    "pos": "名詞",
+    "pos_detail_1": "一般",
+    "basic_form": "水中"
+   },
+   {
+    "surface_form": "で",
+    "reading": "デ",
+    "pronunciation": "デ",
+    "pos": "助詞",
+    "pos_detail_1": "格助詞",
+    "basic_form": "で"
+   },
+   {
+    "surface_form": "呼吸",
+    "reading": "コキュウ",
+    "pronunciation": "コキュー",
+    "pos": "名詞",
+    "pos_detail_1": "サ変接続",
+    "basic_form": "呼吸"
+   },
+   {
+    "surface_form": "し",
+    "reading": "シ",
+    "pronunciation": "シ",
+    "pos": "動詞",
+    "pos_detail_1": "自立",
+    "basic_form": "する"
+   },
+   {
+    "surface_form": "て",
+    "reading": "テ",
+    "pronunciation": "テ",
+    "pos": "助詞",
+    "pos_detail_1": "接続助詞",
+    "basic_form": "て"
+   },
+   {
+    "surface_form": "いる",
+    "reading": "イル",
+    "pronunciation": "イル",
+    "pos": "動詞",
+    "pos_detail_1": "非自立",
+    "basic_form": "いる"
+   },
+   {
+    "surface_form": "よう",
+    "reading": "ヨウ",
+    "pronunciation": "ヨー",
+    "pos": "名詞",
+    "pos_detail_1": "非自立",
+    "basic_form": "よう"
+   },
+   {
+    "surface_form": "に",
+    "reading": "ニ",
+    "pronunciation": "ニ",
+    "pos": "助詞",
+    "pos_detail_1": "副詞化",
+    "basic_form": "に"
+   },
+   {
+    "surface_form": "感じ",
+    "reading": "カンジ",
+    "pronunciation": "カンジ",
+    "pos": "動詞",
+    "pos_detail_1": "自立",
+    "basic_form": "感じる"
+   },
+   {
+    "surface_form": "られ",
+    "reading": "ラレ",
+    "pronunciation": "ラレ",
+    "pos": "動詞",
+    "pos_detail_1": "接尾",
+    "basic_form": "られる"
+   },
+   {
+    "surface_form": "た",
+    "reading": "タ",
+    "pronunciation": "タ",
+    "pos": "助動詞",
+    "pos_detail_1": "*",
+    "basic_form": "た"
+   },
+   {
+    "surface_form": "。",
+    "reading": "。",
+    "pronunciation": "。",
+    "pos": "記号",
+    "pos_detail_1": "句点",
+    "basic_form": "。"
+   }
+  ]
+ },
+ {
+  "text": "8万人の魂が肩を寄せ合い、ASEANカップはインドネシアのサッカーファンに語り継がれたゴーストストーリーだった—6度の悔しい決勝戦の物語。",
+  "tokens": [
+   {
+    "surface_form": "8",
+    "pos": "名詞",
+    "pos_detail_1": "数",
+    "basic_form": "*"
+   },
+   {
+    "surface_form": "万",
+    "reading": "マン",
+    "pronunciation": "マン",
+    "pos": "名詞",
+    "pos_detail_1": "数",
+    "basic_form": "万"
+   },
+   {
+    "surface_form": "人",
+    "reading": "ニン",
+    "pronunciation": "ニン",
+    "pos": "名詞",
+    "pos_detail_1": "接尾",
+    "basic_form": "人"
+   },
+   {
+    "surface_form": "の",
+    "reading": "ノ",
+    "pronunciation": "ノ",
+    "pos": "助詞",
+    "pos_detail_1": "連体化",
+    "basic_form": "の"
+   },
+   {
+    "surface_form": "魂",
+    "reading": "タマシイ",
+    "pronunciation": "タマシー",
+    "pos": "名詞",
+    "pos_detail_1": "一般",
+    "basic_form": "魂"
+   },
+   {
+    "surface_form": "が",
+    "reading": "ガ",
+    "pronunciation": "ガ",
+    "pos": "助詞",
+    "pos_detail_1": "格助詞",
+    "basic_form": "が"
+   },
+   {
+    "surface_form": "肩",
+    "reading": "カタ",
+    "pronunciation": "カタ",
+    "pos": "名詞",
+    "pos_detail_1": "一般",
+    "basic_form": "肩"
+   },
+   {
+    "surface_form": "を",
+    "reading": "ヲ",
+    "pronunciation": "ヲ",
+    "pos": "助詞",
+    "pos_detail_1": "格助詞",
+    "basic_form": "を"
+   },
+   {
+    "surface_form": "寄せ",
+    "reading": "ヨセ",
+    "pronunciation": "ヨセ",
+    "pos": "動詞",
+    "pos_detail_1": "自立",
+    "basic_form": "寄せる"
+   },
+   {
+    "surface_form": "合い",
+    "reading": "アイ",
+    "pronunciation": "アイ",
+    "pos": "動詞",
+    "pos_detail_1": "非自立",
+    "basic_form": "合う"
+   },
+   {
+    "surface_form": "、",
+    "reading": "、",
+    "pronunciation": "、",
+    "pos": "記号",
+    "pos_detail_1": "読点",
+    "basic_form": "、"
+   },
+   {
+    "surface_form": "ASEAN",
+    "pos": "名詞",
+    "pos_detail_1": "固有名詞",
+    "basic_form": "*"
+   },
+   {
+    "surface_form": "カップ",
+    "reading": "カップ",
+    "pronunciation": "カップ",
+    "pos": "名詞",
+    "pos_detail_1": "一般",
+    "basic_form": "カップ"
+   },
+   {
+    "surface_form": "は",
+    "reading": "ハ",
+    "pronunciation": "ワ",
+    "pos": "助詞",
+    "pos_detail_1": "係助詞",
+    "basic_form": "は"
+   },
+   {
+    "surface_form": "インドネシア",
+    "reading": "インドネシア",
+    "pronunciation": "インドネシア",
+    "pos": "名詞",
+    "pos_detail_1": "固有名詞",
+    "basic_form": "インドネシア"
+   },
+   {
+    "surface_form": "の",
+    "reading": "ノ",
+    "pronunciation": "ノ",
+    "pos": "助詞",
+    "pos_detail_1": "連体化",
+    "basic_form": "の"
+   },
+   {
+    "surface_form": "サッカー",
+    "reading": "サッカー",
+    "pronunciation": "サッカー",
+    "pos": "名詞",
+    "pos_detail_1": "一般",
+    "basic_form": "サッカー"
+   },
+   {
+    "surface_form": "ファン",
+    "reading": "ファン",
+    "pronunciation": "ファン",
+    "pos": "名詞",
+    "pos_detail_1": "一般",
+    "basic_form": "ファン"
+   },
+   {
+    "surface_form": "に",
+    "reading": "ニ",
+    "pronunciation": "ニ",
+    "pos": "助詞",
+    "pos_detail_1": "格助詞",
+    "basic_form": "に"
+   },
+   {
+    "surface_form": "語り継が",
+    "reading": "カタリツガ",
+    "pronunciation": "カタリツガ",
+    "pos": "動詞",
+    "pos_detail_1": "自立",
+    "basic_form": "語り継ぐ"
+   },
+   {
+    "surface_form": "れ",
+    "reading": "レ",
+    "pronunciation": "レ",
+    "pos": "動詞",
+    "pos_detail_1": "接尾",
+    "basic_form": "れる"
+   },
+   {
+    "surface_form": "た",
+    "reading": "タ",
+    "pronunciation": "タ",
+    "pos": "助動詞",
+    "pos_detail_1": "*",
+    "basic_form": "た"
+   },
+   {
+    "surface_form": "ゴースト",
+    "reading": "ゴースト",
+    "pronunciation": "ゴースト",
+    "pos": "名詞",
+    "pos_detail_1": "一般",
+    "basic_form": "ゴースト"
+   },
+   {
+    "surface_form": "ストーリー",
+    "reading": "ストーリー",
+    "pronunciation": "ストーリー",
+    "pos": "名詞",
+    "pos_detail_1": "一般",
+    "basic_form": "ストーリー"
+   },
+   {
+    "surface_form": "だっ",
+    "reading": "ダッ",
+    "pronunciation": "ダッ",
+    "pos": "助動詞",
+    "pos_detail_1": "*",
+    "basic_form": "だ"
+   },
+   {
+    "surface_form": "た",
+    "reading": "タ",
+    "pronunciation": "タ",
+    "pos": "助動詞",
+    "pos_detail_1": "*",
+    "basic_form": "た"
+   },
+   {
+    "surface_form": "—",
+    "pos": "名詞",
+    "pos_detail_1": "サ変接続",
+    "basic_form": "*"
+   },
+   {
+    "surface_form": "6",
+    "pos": "名詞",
+    "pos_detail_1": "数",
+    "basic_form": "*"
+   },
+   {
+    "surface_form": "度",
+    "reading": "ド",
+    "pronunciation": "ド",
+    "pos": "名詞",
+    "pos_detail_1": "接尾",
+    "basic_form": "度"
+   },
+   {
+    "surface_form": "の",
+    "reading": "ノ",
+    "pronunciation": "ノ",
+    "pos": "助詞",
+    "pos_detail_1": "連体化",
+    "basic_form": "の"
+   },
+   {
+    "surface_form": "悔しい",
+    "reading": "クヤシイ",
+    "pronunciation": "クヤシイ",
+    "pos": "形容詞",
+    "pos_detail_1": "自立",
+    "basic_form": "悔しい"
+   },
+   {
+    "surface_form": "決勝",
+    "reading": "ケッショウ",
+    "pronunciation": "ケッショー",
+    "pos": "名詞",
+    "pos_detail_1": "一般",
+    "basic_form": "決勝"
+   },
+   {
+    "surface_form": "戦",
+    "reading": "セン",
+    "pronunciation": "セン",
+    "pos": "名詞",
+    "pos_detail_1": "接尾",
+    "basic_form": "戦"
+   },
+   {
+    "surface_form": "の",
+    "reading": "ノ",
+    "pronunciation": "ノ",
+    "pos": "助詞",
+    "pos_detail_1": "連体化",
+    "basic_form": "の"
+   },
+   {
+    "surface_form": "物語",
+    "reading": "モノガタリ",
+    "pronunciation": "モノガタリ",
+    "pos": "名詞",
+    "pos_detail_1": "一般",
+    "basic_form": "物語"
+   },
+   {
+    "surface_form": "。",
+    "reading": "。",
+    "pronunciation": "。",
+    "pos": "記号",
+    "pos_detail_1": "句点",
+    "basic_form": "。"
+   }
+  ]
+ },
+ {
+  "text": "こんにちは、東京へ行きます。ラーメンを食べました！\n「ありがとう」と言った。",
+  "tokens": [
+   {
+    "surface_form": "こんにちは",
+    "reading": "コンニチハ",
+    "pronunciation": "コンニチワ",
+    "pos": "感動詞",
+    "pos_detail_1": "*",
+    "basic_form": "こんにちは"
+   },
+   {
+    "surface_form": "、",
+    "reading": "、",
+    "pronunciation": "、",
+    "pos": "記号",
+    "pos_detail_1": "読点",
+    "basic_form": "、"
+   },
+   {
+    "surface_form": "東京",
+    "reading": "トウキョウ",
+    "pronunciation": "トーキョー",
+    "pos": "名詞",
+    "pos_detail_1": "固有名詞",
+    "basic_form": "東京"
+   },
+   {
+    "surface_form": "へ",
+    "reading": "ヘ",
+    "pronunciation": "エ",
+    "pos": "助詞",
+    "pos_detail_1": "格助詞",
+    "basic_form": "へ"
+   },
+   {
+    "surface_form": "行き",
+    "reading": "イキ",
+    "pronunciation": "イキ",
+    "pos": "動詞",
+    "pos_detail_1": "自立",
+    "basic_form": "行く"
+   },
+   {
+    "surface_form": "ます",
+    "reading": "マス",
+    "pronunciation": "マス",
+    "pos": "助動詞",
+    "pos_detail_1": "*",
+    "basic_form": "ます"
+   },
+   {
+    "surface_form": "。",
+    "reading": "。",
+    "pronunciation": "。",
+    "pos": "記号",
+    "pos_detail_1": "句点",
+    "basic_form": "。"
+   },
+   {
+    "surface_form": "ラーメン",
+    "reading": "ラーメン",
+    "pronunciation": "ラーメン",
+    "pos": "名詞",
+    "pos_detail_1": "一般",
+    "basic_form": "ラーメン"
+   },
+   {
+    "surface_form": "を",
+    "reading": "ヲ",
+    "pronunciation": "ヲ",
+    "pos": "助詞",
+    "pos_detail_1": "格助詞",
+    "basic_form": "を"
+   },
+   {
+    "surface_form": "食べ",
+    "reading": "タベ",
+    "pronunciation": "タベ",
+    "pos": "動詞",
+    "pos_detail_1": "自立",
+    "basic_form": "食べる"
+   },
+   {
+    "surface_form": "まし",
+    "reading": "マシ",
+    "pronunciation": "マシ",
+    "pos": "助動詞",
+    "pos_detail_1": "*",
+    "basic_form": "ます"
+   },
+   {
+    "surface_form": "た",
+    "reading": "タ",
+    "pronunciation": "タ",
+    "pos": "助動詞",
+    "pos_detail_1": "*",
+    "basic_form": "た"
+   },
+   {
+    "surface_form": "！",
+    "reading": "！",
+    "pronunciation": "！",
+    "pos": "記号",
+    "pos_detail_1": "一般",
+    "basic_form": "！"
+   },
+   {
+    "surface_form": "\n",
+    "pos": "記号",
+    "pos_detail_1": "空白",
+    "basic_form": "*"
+   },
+   {
+    "surface_form": "「",
+    "reading": "「",
+    "pronunciation": "「",
+    "pos": "記号",
+    "pos_detail_1": "括弧開",
+    "basic_form": "「"
+   },
+   {
+    "surface_form": "ありがとう",
+    "reading": "アリガトウ",
+    "pronunciation": "アリガトー",
+    "pos": "感動詞",
+    "pos_detail_1": "*",
+    "basic_form": "ありがとう"
+   },
+   {
+    "surface_form": "」",
+    "reading": "」",
+    "pronunciation": "」",
+    "pos": "記号",
+    "pos_detail_1": "括弧閉",
+    "basic_form": "」"
+   },
+   {
+    "surface_form": "と",
+    "reading": "ト",
+    "pronunciation": "ト",
+    "pos": "助詞",
+    "pos_detail_1": "格助詞",
+    "basic_form": "と"
+   },
+   {
+    "surface_form": "言っ",
+    "reading": "イッ",
+    "pronunciation": "イッ",
+    "pos": "動詞",
+    "pos_detail_1": "自立",
+    "basic_form": "言う"
+   },
+   {
+    "surface_form": "た",
+    "reading": "タ",
+    "pronunciation": "タ",
+    "pos": "助動詞",
+    "pos_detail_1": "*",
+    "basic_form": "た"
+   },
+   {
+    "surface_form": "。",
+    "reading": "。",
+    "pronunciation": "。",
+    "pos": "記号",
+    "pos_detail_1": "句点",
+    "basic_form": "。"
+   }
+  ]
+ },
+ {
+  "text": "私の手は大きいのです。母は母です。",
+  "tokens": [
+   {
+    "surface_form": "私",
+    "reading": "ワタシ",
+    "pronunciation": "ワタシ",
+    "pos": "名詞",
+    "pos_detail_1": "代名詞",
+    "basic_form": "私"
+   },
+   {
+    "surface_form": "の",
+    "reading": "ノ",
+    "pronunciation": "ノ",
+    "pos": "助詞",
+    "pos_detail_1": "連体化",
+    "basic_form": "の"
+   },
+   {
+    "surface_form": "手",
+    "reading": "テ",
+    "pronunciation": "テ",
+    "pos": "名詞",
+    "pos_detail_1": "一般",
+    "basic_form": "手"
+   },
+   {
+    "surface_form": "は",
+    "reading": "ハ",
+    "pronunciation": "ワ",
+    "pos": "助詞",
+    "pos_detail_1": "係助詞",
+    "basic_form": "は"
+   },
+   {
+    "surface_form": "大きい",
+    "reading": "オオキイ",
+    "pronunciation": "オーキイ",
+    "pos": "形容詞",
+    "pos_detail_1": "自立",
+    "basic_form": "大きい"
+   },
+   {
+    "surface_form": "の",
+    "reading": "ノ",
+    "pronunciation": "ノ",
+    "pos": "名詞",
+    "pos_detail_1": "非自立",
+    "basic_form": "の"
+   },
+   {
+    "surface_form": "です",
+    "reading": "デス",
+    "pronunciation": "デス",
+    "pos": "助動詞",
+    "pos_detail_1": "*",
+    "basic_form": "です"
+   },
+   {
+    "surface_form": "。",
+    "reading": "。",
+    "pronunciation": "。",
+    "pos": "記号",
+    "pos_detail_1": "句点",
+    "basic_form": "。"
+   },
+   {
+    "surface_form": "母",
+    "reading": "ハハ",
+    "pronunciation": "ハハ",
+    "pos": "名詞",
+    "pos_detail_1": "一般",
+    "basic_form": "母"
+   },
+   {
+    "surface_form": "は",
+    "reading": "ハ",
+    "pronunciation": "ワ",
+    "pos": "助詞",
+    "pos_detail_1": "係助詞",
+    "basic_form": "は"
+   },
+   {
+    "surface_form": "母",
+    "reading": "ハハ",
+    "pronunciation": "ハハ",
+    "pos": "名詞",
+    "pos_detail_1": "一般",
+    "basic_form": "母"
+   },
+   {
+    "surface_form": "です",
+    "reading": "デス",
+    "pronunciation": "デス",
+    "pos": "助動詞",
+    "pos_detail_1": "*",
+    "basic_form": "です"
+   },
+   {
+    "surface_form": "。",
+    "reading": "。",
+    "pronunciation": "。",
+    "pos": "記号",
+    "pos_detail_1": "句点",
+    "basic_form": "。"
+   }
+  ]
+ },
+ {
+  "text": "どうもありがとうございます。",
+  "tokens": [
+   {
+    "surface_form": "どうも",
+    "reading": "ドウモ",
+    "pronunciation": "ドーモ",
+    "pos": "副詞",
+    "pos_detail_1": "一般",
+    "basic_form": "どうも"
+   },
+   {
+    "surface_form": "ありがとう",
+    "reading": "アリガトウ",
+    "pronunciation": "アリガトー",
+    "pos": "感動詞",
+    "pos_detail_1": "*",
+    "basic_form": "ありがとう"
+   },
+   {
+    "surface_form": "ござい",
+    "reading": "ゴザイ",
+    "pronunciation": "ゴザイ",
+    "pos": "助動詞",
+    "pos_detail_1": "*",
+    "basic_form": "ござる"
+   },
+   {
+    "surface_form": "ます",
+    "reading": "マス",
+    "pronunciation": "マス",
+    "pos": "助動詞",
+    "pos_detail_1": "*",
+    "basic_form": "ます"
+   },
+   {
+    "surface_form": "。",
+    "reading": "。",
+    "pronunciation": "。",
+    "pos": "記号",
+    "pos_detail_1": "句点",
+    "basic_form": "。"
+   }
+  ]
+ },
+ {
+  "text": "学生ではありません。食べてください。読んでいない。",
+  "tokens": [
+   {
+    "surface_form": "学生",
+    "reading": "ガクセイ",
+    "pronunciation": "ガクセイ",
+    "pos": "名詞",
+    "pos_detail_1": "一般",
+    "basic_form": "学生"
+   },
+   {
+    "surface_form": "で",
+    "reading": "デ",
+    "pronunciation": "デ",
+    "pos": "助詞",
+    "pos_detail_1": "格助詞",
+    "basic_form": "で"
+   },
+   {
+    "surface_form": "は",
+    "reading": "ハ",
+    "pronunciation": "ワ",
+    "pos": "助詞",
+    "pos_detail_1": "係助詞",
+    "basic_form": "は"
+   },
+   {
+    "surface_form": "あり",
+    "reading": "アリ",
+    "pronunciation": "アリ",
+    "pos": "動詞",
+    "pos_detail_1": "自立",
+    "basic_form": "ある"
+   },
+   {
+    "surface_form": "ませ",
+    "reading": "マセ",
+    "pronunciation": "マセ",
+    "pos": "助動詞",
+    "pos_detail_1": "*",
+    "basic_form": "ます"
+   },
+   {
+    "surface_form": "ん",
+    "reading": "ン",
+    "pronunciation": "ン",
+    "pos": "助動詞",
+    "pos_detail_1": "*",
+    "basic_form": "ん"
+   },
+   {
+    "surface_form": "。",
+    "reading": "。",
+    "pronunciation": "。",
+    "pos": "記号",
+    "pos_detail_1": "句点",
+    "basic_form": "。"
+   },
+   {
+    "surface_form": "食べ",
+    "reading": "タベ",
+    "pronunciation": "タベ",
+    "pos": "動詞",
+    "pos_detail_1": "自立",
+    "basic_form": "食べる"
+   },
+   {
+    "surface_form": "て",
+    "reading": "テ",
+    "pronunciation": "テ",
+    "pos": "助詞",
+    "pos_detail_1": "接続助詞",
+    "basic_form": "て"
+   },
+   {
+    "surface_form": "ください",
+    "reading": "クダサイ",
+    "pronunciation": "クダサイ",
+    "pos": "動詞",
+    "pos_detail_1": "非自立",
+    "basic_form": "くださる"
+   },
+   {
+    "surface_form": "。",
+    "reading": "。",
+    "pronunciation": "。",
+    "pos": "記号",
+    "pos_detail_1": "句点",
+    "basic_form": "。"
+   },
+   {
+    "surface_form": "読ん",
+    "reading": "ヨン",
+    "pronunciation": "ヨン",
+    "pos": "動詞",
+    "pos_detail_1": "自立",
+    "basic_form": "読む"
+   },
+   {
+    "surface_form": "で",
+    "reading": "デ",
+    "pronunciation": "デ",
+    "pos": "助詞",
+    "pos_detail_1": "接続助詞",
+    "basic_form": "で"
+   },
+   {
+    "surface_form": "い",
+    "reading": "イ",
+    "pronunciation": "イ",
+    "pos": "動詞",
+    "pos_detail_1": "非自立",
+    "basic_form": "いる"
+   },
+   {
+    "surface_form": "ない",
+    "reading": "ナイ",
+    "pronunciation": "ナイ",
+    "pos": "助動詞",
+    "pos_detail_1": "*",
+    "basic_form": "ない"
+   },
+   {
+    "surface_form": "。",
+    "reading": "。",
+    "pronunciation": "。",
+    "pos": "記号",
+    "pos_detail_1": "句点",
+    "basic_form": "。"
+   }
+  ]
+ }
+]
