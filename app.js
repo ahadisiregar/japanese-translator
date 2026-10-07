@@ -2,6 +2,7 @@
   const $ = (id) => document.getElementById(id);
   const source = $('source'), target = $('target'), statusEl = $('status'), btn = $('translate');
   const showKana = $('show-kana'), showRomaji = $('show-romaji'), wbw = $('wbw'), card = $('aligned'), note = $('aligned-note');
+  const service = $('service'), keyInput = $('google-key'), keySave = $('key-save'), keyStatus = $('key-status');
 
   const LANGS = {
     ja: { name: 'Japanese', speech: 'ja-JP', placeholder: 'こんにちは、元気ですか？  or  konnichiwa, genki desu ka?' },
@@ -370,6 +371,75 @@
     });
   }
 
+  // ---- Translation service ---------------------------------------------------------------------------
+
+  // Credits for the services in use.
+  function credit(prefix, who) {
+    const out = [prefix];
+    if (who.url) {
+      const a = el('a', '', who.name);
+      Object.assign(a, { href: who.url, target: '_blank', rel: 'noopener' });
+      out.push(a);
+    } else {
+      out.push(who.name);
+    }
+    out.push('. ');
+    return out;
+  }
+
+  function renderCredit() {
+    const parts = credit('Translations by ', Engine.credit);
+    const readingCredit = Reading.status().credit;
+    if (readingCredit) parts.push(...credit('Readings by ', readingCredit));
+    $('credit').replaceChildren(...parts);
+  }
+
+  function setKeyStatus(msg, isError = false) {
+    keyStatus.textContent = msg;
+    keyStatus.className = 'key-status' + (isError ? ' error' : '');
+  }
+
+  // The box for a Google key. It is hidden where the translation service cannot be chosen.
+  function renderService() {
+    renderCredit();
+    if (typeof Engine.setKey !== 'function') { service.hidden = true; return; }
+    const info = Engine.service();
+    $('service-name').textContent = info.label + (info.keySource === 'config' ? ' (key from config.js)' : '');
+    $('service-switch').hidden = info.id === 'google';
+    $('key-remove').hidden = info.keySource !== 'browser';
+    keyInput.placeholder = info.keySource === 'browser'
+      ? 'Saved: a key ending in ' + info.keyEnd
+      : 'Paste your Google API key here';
+  }
+
+  // Check the key with Google first, so a typo is caught here and not in the middle of a translation.
+  async function saveKey() {
+    const key = keyInput.value.trim();
+    if (!key) { setKeyStatus('Paste your key first.', true); return; }
+    keySave.disabled = true;
+    setKeyStatus('Checking the key with Google…');
+    try {
+      const hello = await Engine.testKey(key);
+      Engine.setKey(key);
+      keyInput.value = '';
+      renderService();
+      setKeyStatus('Google Translate is on. (Test: こんにちは → ' + hello + ')');
+      if (last) translate(); // translate the same text again with Google
+    } catch (e) {
+      setKeyStatus((e && e.message) || 'That key did not work.', true);
+    } finally {
+      keySave.disabled = false;
+    }
+  }
+
+  keySave.addEventListener('click', saveKey);
+  keyInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); saveKey(); } });
+  $('key-remove').addEventListener('click', () => {
+    Engine.setKey('');
+    renderService();
+    setKeyStatus(Engine.service().id === 'google' ? 'Using the key from config.js.' : 'Back to the free MyMemory service.');
+  });
+
   // ---- Everything else ---------------------------------------------------------------------------
 
   function speak(text, lang) {
@@ -410,26 +480,10 @@
   $('speak-src').addEventListener('click', () => speak(source.value, LANGS[from].speech));
   $('speak-tgt').addEventListener('click', () => speak(target.value, LANGS[to].speech));
 
-  // Credits for the services in use.
-  function credit(prefix, who) {
-    const out = [prefix];
-    if (who.url) {
-      const a = el('a', '', who.name);
-      Object.assign(a, { href: who.url, target: '_blank', rel: 'noopener' });
-      out.push(a);
-    } else {
-      out.push(who.name);
-    }
-    out.push('. ');
-    return out;
-  }
-  $('credit').append(...credit('Translations by ', Engine.credit));
-  const readingCredit = Reading.status().credit;
-  if (readingCredit) $('credit').append(...credit('Readings by ', readingCredit));
-
   wbw.checked = store.get('wbw') !== '0';
   showKana.checked = store.get('kana') !== '0';
   showRomaji.checked = store.get('romaji') !== '0';
   setView(store.get('view') === 'list' ? 'list' : 'flow');
   renderLangs();
+  renderService();
 })();

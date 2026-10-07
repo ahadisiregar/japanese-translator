@@ -1,9 +1,10 @@
 // Optional settings.
 //
-// googleApiKey: paste a Google Cloud Translation API key to translate with Google.
-// Leave it empty to use the free MyMemory service instead.
-// A key in a public website is visible to everyone, so restrict it to this site's address
-// in Google Cloud Console (see README.md).
+// googleApiKey: a Google Cloud Translation API key. Leave it empty to use the free MyMemory service.
+//
+// You do not have to put a key here. The easier and more private way is to paste it into the
+// "Translation service" box on the page, which keeps it in your browser only. A key written here
+// sits in a public file, so restrict it to this site's address in Google Cloud Console (see README.md).
 const APP_CONFIG = {
   googleApiKey: '',
 };

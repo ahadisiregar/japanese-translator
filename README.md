@@ -8,6 +8,7 @@ A small website that translates between Japanese and English. It is plain HTML, 
 - **Type Japanese any way you like.** Kana and kanji work, and so does romaji (`konnichiwa`).
 - **Hiragana and romaji, always.** Japanese text comes with both readings, whether you typed it or it is the translation. They show under the Japanese text and under each phrase in the word-by-word view. Tick or untick **Hiragana** and **Romaji** to show or hide a line.
 - **Word by word.** After a translation, the phrases of the source and the matching words of the translation get the same color. Hover, tap or focus one to light up its partner. The *List* tab shows the same pairs one per row.
+- **Better translations with Google.** Paste a Google key into the page (see below). Without one, the free MyMemory service is used.
 - Listen to either side, copy the result, dark mode, works on phones.
 
 ## Run it
@@ -22,25 +23,29 @@ To put it online for free, use GitHub Pages (Settings → Pages → deploy from 
 
 ## Translation service
 
-By default the site uses [MyMemory](https://mymemory.translated.net): free, no key, but with a daily limit and uneven quality.
+By default the site uses [MyMemory](https://mymemory.translated.net): free and needs no key, but it has a daily limit and its translations are often poor.
 
-To use **Google Cloud Translation** instead, put an API key in `config.js`:
+**Google Translate** is much better. It needs your own Google key. Two ways to use one:
 
-```js
-const APP_CONFIG = {
-  googleApiKey: 'your key here',
-};
-```
+- **On the page (easiest, and private).** Open **Translation service** under the Translate button, paste the key and press **Save key**. The page checks the key with Google first. The key is kept only in that browser and is sent only to Google. Anyone else who opens the site still gets MyMemory.
+- **For everyone who visits.** Put the key in `config.js` instead. The key then sits in a public file, so restrict it as described in step 6 below.
 
-Getting a key (the Google Cloud Console menus change now and then, so treat these as a guide):
+If both are set, the key saved in the browser is used.
 
-1. In [Google Cloud Console](https://console.cloud.google.com/), create or pick a project and turn on billing. Google asks for a billing account even if you stay within the free allowance.
-2. Enable the **Cloud Translation API** for the project.
-3. Create an **API key** under *APIs & Services → Credentials*.
-4. Edit the key and restrict it. Under *Application restrictions* choose *Websites* and add your site's address (for example `https://your-name.github.io/*`, plus `http://localhost:*/*` if you test locally). Under *API restrictions* allow only the Cloud Translation API.
-5. Set a daily quota and a budget alert, so a leaked key cannot cost much.
+### Getting a Google key
 
-The key ends up in a public file, so the restrictions in step 4 and the limits in step 5 are what protect you. Check Google's pricing page for the current free allowance and prices.
+The Google Cloud Console menus change now and then, so treat these steps as a guide.
+
+1. Open [Google Cloud Console](https://console.cloud.google.com/) and sign in with a Google account.
+2. Create a project: click the project name at the top left, choose **New project**, give it a name (for example `japanese-translator`) and click **Create**. Make sure it is the selected project afterwards.
+3. Turn on billing: menu (☰) → **Billing**, then link a billing account (this means adding a payment card). Google asks for it even when you stay inside the free allowance. Check Google's [pricing page](https://cloud.google.com/translate/pricing) for the current free amount and prices. As a safety net, create a budget with an alert under **Billing → Budgets & alerts**, so you get an email if charges ever start.
+4. Turn on the API: open the [Cloud Translation API page](https://console.cloud.google.com/apis/library/translate.googleapis.com) and click **Enable**.
+5. Create the key: menu (☰) → **APIs & Services** → **Credentials** → **Create credentials** → **API key**. Copy the key (it starts with `AIza`).
+6. Restrict the key, so it cannot be used from other websites: click the key's name. Under *Application restrictions* choose **Websites**, add your site's address (for example `https://your-name.github.io/*`, and `http://localhost:*/*` if you test on your own computer). Under *API restrictions* choose **Restrict key** and tick **Cloud Translation API**. Save. It can take a few minutes to take effect.
+7. Optional: under **APIs & Services → Cloud Translation API → Quotas & System limits** you can lower the daily limit.
+8. Paste the key into the **Translation service** box on the site and press **Save key**.
+
+If the page says the key was not accepted, it also says what to fix (a typo, the API not turned on, billing, or the website restriction).
 
 ## Readings: how Japanese is read
 

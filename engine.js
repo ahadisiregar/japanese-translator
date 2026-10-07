@@ -3,9 +3,26 @@
 //   Engine.translateMany(texts, from, to)         -> Promise<string[]>   ('' for a text that failed)
 //   Engine.credit                                 -> { name, url? }
 //   Engine.maxProbes                              -> how many phrases word-by-word may translate separately
-// Google Cloud Translation is used when APP_CONFIG.googleApiKey is set, otherwise MyMemory.
+//   Engine.service()                              -> what is in use now, for the settings box
+//   Engine.setKey(key)                            -> use Google with this key (kept in this browser); '' to stop
+//   Engine.testKey(key)                           -> check a key; resolves with a sample translation
+// Google Cloud Translation is used when there is an API key (one saved in this browser, otherwise
+// APP_CONFIG.googleApiKey), and MyMemory when there is none.
 const Engine = (() => {
-  const googleKey = (typeof APP_CONFIG !== 'undefined' && APP_CONFIG.googleApiKey) || '';
+  const STORAGE_NAME = 'googleApiKey';
+  const configKey = (typeof APP_CONFIG !== 'undefined' && APP_CONFIG.googleApiKey) || '';
+
+  // The browser's storage can be missing or blocked, so every use is guarded.
+  const readStored = () => { try { return (localStorage.getItem(STORAGE_NAME) || '').trim(); } catch { return ''; } };
+  const writeStored = (value) => {
+    try {
+      if (value) localStorage.setItem(STORAGE_NAME, value);
+      else localStorage.removeItem(STORAGE_NAME);
+    } catch { /* the key then only lasts until the page is closed */ }
+  };
+
+  let browserKey = readStored();
+  const currentKey = () => browserKey || configKey;
 
   // ---- helpers --------------------------------------------------------------------------
 
@@ -86,14 +103,33 @@ const Engine = (() => {
 
   // ---- Google Cloud Translation (needs an API key) -------------------------------------------
 
-  async function google(texts, from, to) {
-    const res = await fetch('https://translation.googleapis.com/language/translate/v2?key=' + encodeURIComponent(googleKey), {
+  // Google's own error messages are written for programmers. Say what to do about the usual ones.
+  function explainGoogle(status, error) {
+    const message = String((error && error.message) || '');
+    const reasons = ((error && error.details) || []).map((d) => d && d.reason).filter(Boolean).join(' ');
+    const text = message + ' ' + reasons;
+    // Google names the address it blocked ("Requests from referer https://you.github.io/ are blocked").
+    const named = (message.match(/referer\s+(https?:\/\/[^\s/]+)/i) || [])[1];
+    const here = typeof location !== 'undefined' && /^https?:/.test(location.origin) ? location.origin : '';
+    const site = named || here ? (named || here) + '/*' : "this site's address";
+    let advice = '';
+    if (/API key not valid|API_KEY_INVALID/i.test(text)) advice = 'Google did not accept that key. Check that all of it was copied.';
+    else if (/referer|referrer/i.test(text)) advice = 'The key is limited to other website addresses. In Google Cloud, add ' + site + ' to the key\'s website restrictions.';
+    else if (/billing|BILLING_DISABLED/i.test(text)) advice = 'Billing is not turned on for the key\'s Google Cloud project. Turn it on in Google Cloud.';
+    else if (/has not been used|is disabled|accessNotConfigured|SERVICE_DISABLED/i.test(text)) advice = 'Cloud Translation API is switched off for the key\'s project. Turn it on in Google Cloud (APIs & Services → Library).';
+    else if (/quota|rate limit|limit exceeded|RATE_LIMIT/i.test(text)) advice = 'The limit for this key was reached. Try again later, or raise the limit in Google Cloud.';
+    if (!message) return advice || 'Google service error (' + status + ')';
+    return advice ? advice + ' (Google said: ' + message + ')' : 'Google: ' + message;
+  }
+
+  async function google(texts, from, to, key = currentKey()) {
+    const res = await fetch('https://translation.googleapis.com/language/translate/v2?key=' + encodeURIComponent(key), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ q: texts, source: from, target: to, format: 'text' }),
     });
     const data = await res.json().catch(() => ({}));
-    if (!res.ok) throw new Error((data.error && data.error.message) || 'Service error (' + res.status + ')');
+    if (!res.ok) throw new Error(explainGoogle(res.status, data.error));
     return data.data.translations.map((t) => t.translatedText);
   }
 
@@ -109,23 +145,63 @@ const Engine = (() => {
     return out;
   }
 
-  if (googleKey) {
-    return {
+  const backends = {
+    google: {
       name: 'Google',
       credit: { name: 'Google Cloud Translation', url: 'https://cloud.google.com/translate' },
       translate: async (text, from, to) => (await google([text], from, to))[0],
       translateMany: googleMany,
-      maxProbes: 60,   // one batched request, so this is cheap
-      chunk,
+      maxProbes: 60, // one batched request, so this is cheap
+    },
+    mymemory: {
+      name: 'MyMemory',
+      credit: { name: 'MyMemory', url: 'https://mymemory.translated.net' },
+      translate: myMemoryTranslate,
+      translateMany: myMemoryMany,
+      maxProbes: 30, // one request each, so keep it modest
+    },
+  };
+  const active = () => (currentKey() ? backends.google : backends.mymemory);
+
+  // ---- Choosing the service ---------------------------------------------------------------------
+
+  // What is in use: { id, label, keySource ('browser' | 'config' | null), keyEnd }
+  function service() {
+    const key = currentKey();
+    return {
+      id: key ? 'google' : 'mymemory',
+      label: key ? 'Google Translate' : 'MyMemory (free)',
+      keySource: !key ? null : browserKey ? 'browser' : 'config',
+      keyEnd: key.slice(-4),
     };
   }
+
+  // Use Google with this key, and remember it in this browser. An empty key goes back to the key in
+  // config.js, or to MyMemory when there is none.
+  function setKey(value) {
+    browserKey = String(value || '').trim();
+    writeStored(browserKey);
+  }
+
+  // Ask Google for a tiny translation to see whether the key works. Resolves with the translation.
+  async function testKey(value) {
+    const key = String(value || '').trim();
+    if (!key) throw new Error('Paste a key first.');
+    const [hello] = await google(['こんにちは'], 'ja', 'en', key);
+    if (!hello) throw new Error('Google did not return a translation.');
+    return hello;
+  }
+
   return {
-    name: 'MyMemory',
-    credit: { name: 'MyMemory', url: 'https://mymemory.translated.net' },
-    translate: myMemoryTranslate,
-    translateMany: myMemoryMany,
-    maxProbes: 30,     // one request each, so keep it modest
     chunk,
+    get name() { return active().name; },
+    get credit() { return active().credit; },
+    get maxProbes() { return active().maxProbes; },
+    translate: (text, from, to, onPartial) => active().translate(text, from, to, onPartial),
+    translateMany: (texts, from, to) => active().translateMany(texts, from, to),
+    service,
+    setKey,
+    testKey,
   };
 })();
 if (typeof module !== 'undefined') module.exports = Engine;

@@ -48,6 +48,21 @@
       </div>
     </div>
 
+    <details id="service" class="service">
+      <summary>Translation service: <strong id="service-name">MyMemory (free)</strong><span id="service-switch"> · switch to Google Translate for better translations</span></summary>
+      <div class="service-body">
+        <p>Google Translate translates much better than the free service. It needs your own Google key. The key is kept only in this browser and is sent only to Google.</p>
+        <label for="google-key">Google API key</label>
+        <div class="key-row">
+          <input id="google-key" type="password" autocomplete="off" autocapitalize="off" spellcheck="false">
+          <button type="button" id="key-save">Save key</button>
+          <button type="button" id="key-remove" hidden>Remove key</button>
+        </div>
+        <p id="key-status" class="key-status" role="status"></p>
+        <p class="key-help">No key yet? Follow the <a href="https://github.com/ahadisiregar/japanese-translator#translation-service" target="_blank" rel="noopener">step-by-step guide</a>.</p>
+      </div>
+    </details>
+
     <section id="aligned" class="aligned" aria-labelledby="aligned-title" hidden>
       <div class="aligned-head">
         <h2 id="aligned-title">Word by word</h2>
