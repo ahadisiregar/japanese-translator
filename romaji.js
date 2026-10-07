@@ -54,11 +54,15 @@ const Romaji = (() => {
     return out;
   }
 
+  // Written on their own, "wa", "o" and "e" are almost always the particles は, を and へ.
+  const LONE_PARTICLES = { wa: 'は', o: 'を', e: 'へ' };
+
   // Convert every Latin run that turns into pure kana; leave anything else (e.g. English words) alone.
   function toKana(text) {
     return text.replace(/[A-Za-z'’-]+/g, (run) => {
       if (!/[A-Za-z]/.test(run)) return run;
-      if (run.toLowerCase() === 'wa') return 'は'; // a lone "wa" is the topic particle
+      const lone = LONE_PARTICLES[run.toLowerCase()];
+      if (lone) return lone;
       const kana = convertWord(run);
       return /[A-Za-z]/.test(kana) ? run : kana;
     });
