@@ -21,3 +21,8 @@ button:hover { border-color:var(--accent); }
 .note { text-align:center; color:var(--muted); font-size:.85rem; margin-top:16px; }
 .note a { color:var(--accent); }
 #status.error { color:#e5484d; }
+.switch { display:flex; justify-content:center; align-items:center; gap:16px; margin:0 0 16px; font-weight:600; }
+.switch span { min-width:5.5em; text-align:center; }
+#swap { font-size:1.1rem; padding:4px 14px; border-radius:999px; }
+.hint { color:var(--muted); font-size:.9rem; padding:0 2px 6px; overflow-wrap:anywhere; }
+.hint b { color:var(--text); font-weight:600; }
