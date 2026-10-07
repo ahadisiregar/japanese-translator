@@ -9,7 +9,7 @@
 <body>
   <main>
     <h1>日本語 ⇄ English</h1>
-    <p class="sub">Translate both ways. For Japanese, type kana, kanji or romaji (like <em>konnichiwa</em>).</p>
+    <p class="sub">Translate both ways. Type Japanese in kana, kanji or romaji (like <em>konnichiwa</em>). Japanese text always comes with its hiragana and romaji.</p>
 
     <div class="switch">
       <span id="from-name">Japanese</span>
@@ -24,7 +24,7 @@
           <button type="button" id="speak-src">Listen</button>
         </div>
         <textarea id="source" maxlength="5000"></textarea>
-        <div id="hint" class="hint" hidden></div>
+        <div id="reading-src" class="reading" hidden></div>
         <div class="bar"><span id="count">0 / 5000</span><button type="button" id="clear">Clear</button></div>
       </section>
 
@@ -34,13 +34,18 @@
           <button type="button" id="speak-tgt">Listen</button>
         </div>
         <textarea id="target" readonly></textarea>
+        <div id="reading-tgt" class="reading" hidden></div>
         <div class="bar"><span id="status" role="status"></span><button type="button" id="copy">Copy</button></div>
       </section>
     </div>
 
     <div class="actions">
       <button type="button" id="translate" class="primary">Translate</button>
-      <label class="check"><input type="checkbox" id="wbw" checked> Word by word</label>
+      <div class="opts" role="group" aria-label="Show">
+        <label class="check"><input type="checkbox" id="show-kana" checked> Hiragana</label>
+        <label class="check"><input type="checkbox" id="show-romaji" checked> Romaji</label>
+        <label class="check"><input type="checkbox" id="wbw" checked> Word by word</label>
+      </div>
     </div>
 
     <section id="aligned" class="aligned" aria-labelledby="aligned-title" hidden>
@@ -59,12 +64,14 @@
       <div id="aligned-list" class="pairs" hidden></div>
     </section>
 
-    <p class="note"><span id="credit"></span> Press Ctrl/⌘+Enter to translate.
+    <p class="note"><span id="credit"></span>Press Ctrl/⌘+Enter to translate.
       Romaji tips: write long vowels out (Tokyo = <em>toukyou</em>). Type <em>ha</em> for は inside a word.</p>
   </main>
   <script src="config.js"></script>
   <script src="romaji.js"></script>
   <script src="align.js"></script>
+  <script src="reading.js"></script>
+  <script src="kuromoji-analyzer.js"></script>
   <script src="engine.js"></script>
   <script src="app.js"></script>
 </body>

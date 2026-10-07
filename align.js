@@ -25,7 +25,7 @@ const Align = (() => {
     }
     // Older browsers: split by script. Coarser, but still gives usable chunks.
     const out = [];
-    const re = /[A-Za-z0-9]+(?:['’][A-Za-z]+)?|[぀-ゟ]+|[゠-ヿ]+|[㐀-鿿々]+|\s+|[\s\S]/gu;
+    const re = /[A-Za-z0-9]+(?:['’][A-Za-z]+)?|\p{Script=Hiragana}+|[\p{Script=Katakana}ー]+|[\p{Script=Han}々]+|\s+|[\s\S]/gu;
     let m;
     while ((m = re.exec(text))) {
       out.push({ text: m[0], start: m.index, end: m.index + m[0].length, word: /[\p{L}\p{N}]/u.test(m[0]) });
@@ -216,8 +216,10 @@ const Align = (() => {
   // translateMany(texts, from, to) must resolve to one translation per text ('' if one failed).
   // `query` turns a phrase into what is sent to the translator (e.g. romaji to kana).
   // Only the first `max` phrases are matched; the returned array's `more` is how many were left out.
-  async function probe({ src, tgt, from, to, translateMany, query, max = MAX_PHRASES }) {
-    const all = phrases(src, from);
+  // `spans` can give the phrases ({ start, end } ranges of `src`) when something better than the
+  // built-in splitting knows them, such as a dictionary.
+  async function probe({ src, tgt, from, to, translateMany, query, max = MAX_PHRASES, spans }) {
+    const all = spans || phrases(src, from);
     const found = all.slice(0, max);
     if (!found.length) return Object.assign([], { more: 0 });
     const texts = found.map((p) => (query ? query(src.slice(p.start, p.end)) : src.slice(p.start, p.end)));
@@ -284,31 +286,46 @@ const Align = (() => {
 
   // ---- Building what the page shows ---------------------------------------------------------
 
-  // Cut `text` into consecutive pieces: [{ text, link }], link being null for plain text.
-  // The pieces always join back into exactly `text`.
+  // Cut `text` into consecutive pieces: [{ text, start, end, link, phrase }]. `link` is the pair a
+  // piece belongs to (null for none) and `phrase` says the piece is a whole phrase rather than loose
+  // text such as spaces and punctuation. The pieces always join back into exactly `text`.
   function buildSegments(text, ranges) {
     const out = [];
     let pos = 0;
+    const piece = (start, end, link, phrase) => out.push({ text: text.slice(start, end), start, end, link, phrase });
     for (const r of [...ranges].sort((a, b) => a.start - b.start)) {
       if (r.start < pos || r.end <= r.start || r.end > text.length) continue;
-      if (r.start > pos) out.push({ text: text.slice(pos, r.start), link: null });
-      out.push({ text: text.slice(r.start, r.end), link: r.link });
+      if (r.start > pos) piece(pos, r.start, null, false);
+      piece(r.start, r.end, r.link, r.phrase !== false);
       pos = r.end;
     }
-    if (pos < text.length) out.push({ text: text.slice(pos), link: null });
+    if (pos < text.length) piece(pos, text.length, null, false);
     return out;
   }
 
-  // Pieces of one side ('src' or 'tgt') for display. Phrases without a counterpart stay plain.
-  function sideSegments(text, links, side) {
+  // Pieces of one side ('src' or 'tgt') for display. Phrases without a counterpart stay unlinked.
+  // `extra` lists more phrase ranges ({ start, end }). Whatever part of them no link covers (the は left
+  // over when only 私 of 私は was matched) becomes a phrase of its own, without a link.
+  function sideSegments(text, links, side, extra = []) {
     const ranges = [];
     links.forEach((link, id) => {
       if (!link.tgt.length) return;
       for (const [start, end] of link[side]) ranges.push({ start, end, link: id });
     });
+    const linked = [...ranges].sort((a, b) => a.start - b.start);
+    for (const p of extra) {
+      let at = p.start;
+      for (const r of linked) {
+        if (r.end <= at) continue;
+        if (r.start >= p.end) break;
+        if (r.start > at) ranges.push({ start: at, end: r.start, link: null });
+        at = Math.max(at, r.end);
+      }
+      if (at < p.end) ranges.push({ start: at, end: p.end, link: null });
+    }
     return buildSegments(text, ranges);
   }
 
-  return { tokenize, phrases, probe, anchorPairs, buildSegments, sideSegments, matchProbes };
+  return { tokenize, phrases, probe, anchorPairs, buildSegments, sideSegments, matchProbes, particles: JA_PARTICLES, endings: JA_ENDINGS };
 })();
 if (typeof module !== 'undefined') module.exports = Align;

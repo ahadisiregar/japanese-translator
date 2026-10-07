@@ -172,3 +172,38 @@ test('probe: only the first `max` phrases are matched, and the rest are reported
   assert.equal(links.more, 2);
   assert.deepEqual(seen, ['ねこ と', 'いぬ と']);
 });
+
+test('probe: uses ready-made phrase ranges when given', async () => {
+  const src = 'neko to inu';
+  const asked = [];
+  await Align.probe({
+    src, tgt: 'cat and dog', from: 'ja', to: 'en', query: Romaji.toKana,
+    spans: [{ start: 0, end: 4 }, { start: 8, end: 11 }],
+    translateMany: async (texts) => { asked.push(...texts); return texts.map(() => ''); },
+  });
+  assert.deepEqual(asked, ['ねこ', 'いぬ']);
+});
+
+test('tokenize and phrases still work without Intl.Segmenter (older browsers)', () => {
+  const real = Intl.Segmenter;
+  Intl.Segmenter = undefined;
+  try {
+    const text = '私は自分のラーメンを食べたい。';
+    assert.deepEqual(Align.tokenize(text, 'ja').map((t) => t.text), ['私', 'は', '自分', 'の', 'ラーメン', 'を', '食', 'べたい', '。']);
+    // coarser than the real thing: it only knows scripts, so 食 and べたい stay apart
+    assert.deepEqual(phraseTexts(text, 'ja'), ['私は', '自分の', 'ラーメンを', '食', 'べたい']);
+    assert.deepEqual(phraseTexts("I don't know the answer.", 'en'), ['I', "don't", 'know', 'the answer']);
+  } finally {
+    Intl.Segmenter = real;
+  }
+});
+
+test('sideSegments: the part of a phrase that no link covers becomes a phrase of its own', () => {
+  const text = '私は自分の物語を';
+  const links = [{ src: [], tgt: [[0, 1]] }, { src: [], tgt: [[5, 7]] }]; // 私 and 物語 are linked, to other text
+  const segs = Align.sideSegments(text, links, 'tgt', [{ start: 0, end: 2 }, { start: 2, end: 5 }, { start: 5, end: 8 }]);
+  assert.equal(segs.map((s) => s.text).join(''), text);
+  assert.deepEqual(segs.map((s) => [s.text, s.link, s.phrase]), [
+    ['私', 0, true], ['は', null, true], ['自分の', null, true], ['物語', 1, true], ['を', null, true],
+  ]);
+});
