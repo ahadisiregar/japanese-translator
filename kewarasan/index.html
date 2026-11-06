@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kewarasan — Last one still sane wins</title>
+<meta name="description" content="A satirical Monopoly-style board game. Money is cheap. Stay sane. Yang paling terakhir masih waras, dialah pemenangnya.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header id="top">
+  <div class="brand">KEWARASAN<small>Last one still sane wins · Yang paling terakhir masih waras, dialah pemenangnya</small></div>
+  <div class="topbtns">
+    <span id="clock" title="Game time / Waktu main">00:00</span>
+    <button id="btnRules" class="btn ghost" type="button">Rules / Aturan</button>
+    <button id="btnNew" class="btn ghost" type="button">New game</button>
+  </div>
+</header>
+
+<main id="setup" class="screen"></main>
+
+<main id="game" class="screen hidden">
+  <div class="layout">
+    <section class="boardwrap"><div id="board" aria-label="Game board"></div></section>
+    <aside id="side">
+      <div id="actions"></div>
+      <div id="players"></div>
+      <div id="log" aria-live="polite"></div>
+    </aside>
+  </div>
+</main>
+
+<div id="modal" class="modal" role="dialog" aria-modal="true">
+  <div id="modal-box" class="box">
+    <h2 id="modal-title"></h2>
+    <div id="modal-body"></div>
+    <div id="modal-btns"></div>
+  </div>
+</div>
+<div id="toasts"></div>
+
+<script src="data.js"></script>
+<script src="game.js"></script>
+</body>
+</html>
