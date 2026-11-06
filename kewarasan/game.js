@@ -497,6 +497,8 @@ function manageHtml(p) {
       <div class="li"><div class="l"><b>Borrow ${fmt(R.LOAN_UNIT)}</b><small>Max ${R.LOAN_MAX} loans (${fmt(R.LOAN_UNIT * R.LOAN_MAX)})</small></div><button class="btn sm bad" data-act="borrow" ${p.loans >= R.LOAN_MAX ? 'disabled' : ''}>Borrow</button></div>
       <div class="li"><div class="l"><b>Repay one loan</b><small>${fmt(R.LOAN_UNIT)} + ${fmt(R.LOAN_INTEREST)} interest</small></div><button class="btn sm good" data-act="repay" ${!p.loans || p.cash < R.LOAN_UNIT + R.LOAN_INTEREST ? 'disabled' : ''}>Repay</button></div>
       ${p.paylater.length ? `<p class="tag-d">Paylater tokens on your card: ${p.paylater.map(fmt).join(', ')} — each comes due on a 6 at the start of your turn.</p>` : ''}</div>
+    <div class="sec"><h4>🤝 Trade / Tukar</h4>
+      <div class="li"><div class="l"><b>Trade with another player</b><small>Cash, deeds and Self-Care cards. Kewarasan can never be traded.</small></div><button class="btn sm" data-act="trade" ${alive().length < 2 ? 'disabled' : ''}>Open trade</button></div></div>
     <div class="sec"><h4>🔨 Renovasi — ${fmt(R.RENO_COST)} each, +${fmt(R.RENO_RENT)} rent, max 3 · sell back at half</h4>${insts}</div>`;
 }
 function openManage(p) {
@@ -505,12 +507,85 @@ function openManage(p) {
     openModal('Manage / Kelola', manageHtml(p), [{ label: 'Done / Selesai', value: 1, onClick: () => { closeModal(); res(); } }], {
       wide: true, noFocus: true,
       handler: (a, d) => {
+        if (a === 'trade') { closeModal(); res('trade'); return; }
         if (a === 'play') playSelfCare(p, +d.i); else if (a === 'borrow') borrow(p); else if (a === 'repay') repay(p);
         else if (a === 'reno') addReno(p, +d.pos); else if (a === 'sell') sellReno(p, +d.pos);
         render();
       },
     });
   });
+}
+
+
+// ---------- trading (rulebook 4.8: cash, deeds and Self-Care cards, any time on your turn) ----------
+const tradeEmpty = () => ({ cash: 0, deeds: [], cards: [] });
+function tradeValue(who, s) {
+  let v = s.cash;
+  s.deeds.forEach(q => { v += TILES[q].price + G.reno[q] * R.RENO_COST * 0.8; });
+  s.cards.forEach(i => { v += CARD[who.hand[i].id].e.kew * (who.kew <= 8 ? 1300000 : 600000); });
+  return v;
+}
+function tradeHtml(p, t) {
+  const others = alive().filter(q => q.id !== p.id), q = G.players[t.partner];
+  const side = (who, s, key, title) => `<div class="sec"><h4>${title}</h4>
+    <div class="li"><div class="l"><b>Cash ${fmt(s.cash)}</b><small>up to ${fmt(who.cash)}</small></div>
+      <button class="btn sm alt" data-act="tcash" data-side="${key}" data-d="-500000">−</button><button class="btn sm" data-act="tcash" data-side="${key}" data-d="500000">+ 500k</button></div>
+    ${ownedBy(who).map(pos => `<div class="li"><div class="l"><b>${esc(TILES[pos].en)}</b><small>${TILES[pos].kind === 'inst' ? 'Renovasi ' + G.reno[pos] + '/3 · ' : ''}${fmt(TILES[pos].price)}</small></div>
+      <button class="btn sm ${s.deeds.includes(pos) ? 'good' : 'alt'}" data-act="tdeed" data-side="${key}" data-pos="${pos}">${s.deeds.includes(pos) ? '✓ In offer' : 'Add'}</button></div>`).join('')}
+    ${who.hand.map((h, i) => `<div class="li"><div class="l"><b>🌿 ${esc(CARD[h.id].titleEn)}</b><small>+${CARD[h.id].e.kew} Kewarasan when played</small></div>
+      <button class="btn sm ${s.cards.includes(i) ? 'good' : 'alt'}" data-act="tcard" data-side="${key}" data-i="${i}">${s.cards.includes(i) ? '✓ In offer' : 'Add'}</button></div>`).join('')}</div>`;
+  return `<div class="sec"><h4>Trade with</h4><div class="seg">${others.map(o => `<button type="button" data-act="tpartner" data-id="${o.id}" class="${o.id === t.partner ? 'on' : ''}">${o.emoji} ${esc(o.name)}</button>`).join('')}</div></div>
+    ${side(p, t.give, 'give', 'You give / Kamu beri')}${side(q, t.get, 'get', esc(q.name) + ' gives / diberi ' + esc(q.name))}`;
+}
+function tradeEmptyOffer(t) { const e = s => !s.cash && !s.deeds.length && !s.cards.length; return e(t.give) && e(t.get); }
+function executeTrade(p, q, t) {
+  p.cash -= t.give.cash; q.cash += t.give.cash; q.cash -= t.get.cash; p.cash += t.get.cash;
+  t.give.deeds.forEach(pos => G.owners[pos] = q.id); t.get.deeds.forEach(pos => G.owners[pos] = p.id);
+  const pc = t.give.cards.map(i => p.hand[i]), qc = t.get.cards.map(i => q.hand[i]);
+  p.hand = p.hand.filter((_, i) => !t.give.cards.includes(i)).concat(qc);
+  q.hand = q.hand.filter((_, i) => !t.get.cards.includes(i)).concat(pc);
+  const desc = (s) => [s.cash ? fmt(s.cash) : '', ...s.deeds.map(x => TILES[x].en), ...(s.cards.length ? [s.cards.length + ' Self-Care'] : [])].filter(Boolean).join(', ') || 'nothing';
+  log(`🤝 ${pL(p)} gives <b>${esc(desc(t.give))}</b> and gets <b>${esc(desc(t.get))}</b> from ${pL(q)}`);
+  toast(`🤝 ${p.emoji} ⇄ ${q.emoji} trade done`, 'good');
+  renderAll();
+}
+function offerSummary(p, q, t) {
+  const list = (s, who) => `<ul style="margin:4px 0 4px 18px;padding:0">${[s.cash ? `<li>${fmt(s.cash)}</li>` : '', ...s.deeds.map(x => `<li>${esc(TILES[x].en)}${G.reno[x] ? ' (+' + G.reno[x] + ' Renovasi)' : ''}</li>`), ...s.cards.map(i => `<li>🌿 ${esc(CARD[who.hand[i].id].titleEn)}</li>`)].join('') || '<li>nothing</li>'}</ul>`;
+  return `<p>${pL(p)} offers:</p>${list(t.give, p)}<p>…and asks ${pL(q)} for:</p>${list(t.get, q)}`;
+}
+async function botAcceptsTrade(q, p, t) {
+  const got = tradeValue(p, t.give), gave = tradeValue(q, t.get);
+  if (q.cash + t.give.cash - t.get.cash < 800000) return false;
+  return got >= gave * 1.05 && got > 0;
+}
+async function openTrade(p) {
+  const others = alive().filter(q => q.id !== p.id); if (!others.length) return;
+  const t = { partner: others[0].id, give: tradeEmpty(), get: tradeEmpty() };
+  const result = await new Promise(res => {
+    const render = () => { $('#modal-body').innerHTML = tradeHtml(p, t); };
+    openModal('🤝 Trade / Tukar', tradeHtml(p, t), [
+      { label: 'Propose / Ajukan', cls: 'good', onClick: () => {
+        const q = G.players[t.partner];
+        if (tradeEmptyOffer(t)) return toast('Add something to the offer first', 'bad');
+        if (t.give.cash > p.cash || t.get.cash > q.cash) return toast('Someone can’t cover that cash amount', 'bad');
+        closeModal(); res('go'); } },
+      { label: 'Cancel / Batal', cls: 'alt', onClick: () => { closeModal(); res('cancel'); } },
+    ], { wide: true, noFocus: true, handler: (a, d) => {
+      const q = G.players[t.partner], s = d.side === 'give' ? t.give : t.get, who = d.side === 'give' ? p : q;
+      if (a === 'tpartner') { t.partner = +d.id; t.give = tradeEmpty(); t.get = tradeEmpty(); }
+      else if (a === 'tcash') s.cash = clamp(s.cash + +d.d, 0, who.cash);
+      else if (a === 'tdeed') { const k = s.deeds.indexOf(+d.pos); k >= 0 ? s.deeds.splice(k, 1) : s.deeds.push(+d.pos); }
+      else if (a === 'tcard') { const k = s.cards.indexOf(+d.i); k >= 0 ? s.cards.splice(k, 1) : s.cards.push(+d.i); }
+      render();
+    } });
+  });
+  if (result !== 'go') return;
+  const q = G.players[t.partner];
+  let ok;
+  if (q.human) ok = await ask({ title: `🤝 ${esc(q.name)}, a trade offer`, body: offerSummary(p, q, t), buttons: [{ label: 'Accept / Terima', value: true, cls: 'good' }, { label: 'Decline / Tolak', value: false, cls: 'alt' }] });
+  else { await sleep(700, q); ok = await botAcceptsTrade(q, p, t); }
+  if (ok) { executeTrade(p, q, t); await notice(p, '🤝 Deal!', `<p>${esc(q.name)} accepted the trade.</p>`, 1200); }
+  else { log(`${pL(q)} declines ${pL(p)}'s trade offer`); await notice(p, 'Trade declined', `<p>${esc(q.name)} said no. <i>Tidak.</i></p>`, 1400); }
 }
 
 // ---------- bot logic ----------
@@ -527,7 +602,7 @@ async function waitAction(p, mode) {
   while (true) {
     setActions(mode);
     const a = await new Promise(r => { UI.actionResolver = r; });
-    if (a === 'manage') { setActions('none'); await openManage(p); continue; }
+    if (a === 'manage') { setActions('none'); if (await openManage(p) === 'trade') await openTrade(p); continue; }
     setActions('none'); return a;
   }
 }
@@ -709,7 +784,7 @@ function showRules() {
     <h4>Property</h4><ul><li><b>Institutions</b>: buy or auction (opening at half price). Renovasi: Rp 500,000 each, +Rp 100,000 rent, max 3.</li><li><b>Transit</b>: rent grows with how many you own. Decline an unowned one and you’re stuck in traffic (-1).</li><li><b>Utilities</b>: fixed bills (PLN Rp 400,000, PDAM Rp 250,000), paid to the owner or the bank.</li><li>Tax tiles: pay money <i>or</i> Kewarasan, your choice.</li></ul>
     <h4>Short on cash?</h4><p>Renovasi tokens are sold back at half cost, then deeds at half price. Anything still unpaid becomes -1 Kewarasan per Rp 500,000, rounded up.</p>
     <h4>Winning</h4><p>Last player above 0. If the 90-minute clock runs out, highest Kewarasan wins, with cash as the tiebreak.</p>
-    <h4>How this digital edition fills the rulebook’s gaps</h4><ul><li>Each player starts with 2 Self-Care cards in hand (the deck keeps its own 6). Self-Care cards you draw are kept and played from Manage.</li><li>“Move to any Institution” is a direct move (no GO bonus). “Move to next Institution” walks forward and can pass GO.</li><li>Lembur Dulu costs 2 Kewarasan, then the Clinic costs 1 more and you skip 2 turns.</li><li>On an unowned Utility you may buy it, otherwise you pay its bill to the bank. Declined Transit tiles aren’t auctioned.</li><li>Skipped turns are skipped entirely (no Paylater roll or Cicilan drain).</li><li>Trading between players isn’t in this version.</li><li><b>Burnout creep</b> (optional, on by default): every few full rounds everyone loses 1 Kewarasan. It is not in the rulebook; it keeps games inside 60–90 minutes.</li></ul>
+    <h4>How this digital edition fills the rulebook’s gaps</h4><ul><li>Each player starts with 2 Self-Care cards in hand (the deck keeps its own 6). Self-Care cards you draw are kept and played from Manage.</li><li>“Move to any Institution” is a direct move (no GO bonus). “Move to next Institution” walks forward and can pass GO.</li><li>Lembur Dulu costs 2 Kewarasan, then the Clinic costs 1 more and you skip 2 turns.</li><li>On an unowned Utility you may buy it, otherwise you pay its bill to the bank. Declined Transit tiles aren’t auctioned.</li><li>Skipped turns are skipped entirely (no Paylater roll or Cicilan drain).</li><li><b>Trading</b> (Manage → Open trade): offer cash, deeds and Self-Care cards for the other player’s. A human partner accepts or declines; a bot accepts if it comes out ahead. Renovasi tokens stay on the deed.</li><li><b>Burnout creep</b> (optional, on by default): every few full rounds everyone loses 1 Kewarasan. It is not in the rulebook; it keeps games inside 60–90 minutes.</li></ul>
     <p class="pitch">Full text: <a href="docs/rulebook.md" style="color:var(--accent)">rulebook</a> · <a href="docs/cards.md" style="color:var(--accent)">card list</a></p></div>`,
   });
 }

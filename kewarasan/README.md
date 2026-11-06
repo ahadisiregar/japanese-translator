@@ -34,7 +34,7 @@ Regenerate the data after editing the markdown: `node kewarasan/tools/gen-data.j
 - Lembur Dulu costs 2 Kewarasan, then the Clinic costs 1 more and 2 skipped turns.
 - An unowned Utility can be bought; if declined, its bill goes to the bank. Declined Transit tiles are not auctioned (traffic penalty only).
 - Skipped turns skip Paylater rolls and Cicilan drain.
-- Player-to-player trading is not implemented yet.
+- Trading (Manage → Open trade): cash, deeds and Self-Care cards. Renovasi tokens stay on a traded deed. Bots accept offers that are worth at least 5% more to them than what they give up; they never propose trades.
 
 ## Testing
 
